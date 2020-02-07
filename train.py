@@ -2,6 +2,7 @@ from model import RUN_CSP
 from csp_utils import Constraint_Language, CSP_Instance
 
 import argparse
+import numpy as np
 from tqdm import tqdm
 
 
@@ -34,7 +35,8 @@ def main():
     parser.add_argument('-l', '--language_config_path', type=str,  help='The path to a json file that specifies the constraint language')
     parser.add_argument('-m', '--model_dir', type=str, help='Path to the model directory where the trained RUN-CSP instance will be stored')
     parser.add_argument('-v', '--n_variables', type=int, default=100, help='Number of variables in each training instance.')
-    parser.add_argument('-c', '--n_clauses', type=int, default=300, help='Number of clauses in each training instance.')
+    parser.add_argument('--c_min', type=int, default=100, help='Minimum number of clauses in each training instance.')
+    parser.add_argument('--c_max', type=int, default=600, help='Maximum number of clauses in each training instance.')
     parser.add_argument('-i', '--n_instances', type=int, default=4000, help='Number of instances for training.')
     parser.add_argument('-t', '--t_max', type=int, default=30, help='Number of iterations t_max for which RUN-CSP runs on each instance')
     parser.add_argument('-s', '--state_size', type=int, default=128, help='Size of the variable states in RUN-CSP')
@@ -48,8 +50,7 @@ def main():
     network = RUN_CSP(args.model_dir, language, args.state_size)
 
     print(f'Generating {args.n_instances} training instances')
-    train_instances = [CSP_Instance.generate_random(args.n_variables, args.n_clauses, language, args.weighted) for _ in tqdm(range(args.n_instances))]
-
+    train_instances = [CSP_Instance.generate_random(args.n_variables, np.random.randint(args.c_min, args.c_max), language) for _ in tqdm(range(args.n_instances))]
     # combine instances into batches
     train_batches = CSP_Instance.batch_instances(train_instances, args.batch_size)
 
