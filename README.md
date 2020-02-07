@@ -24,7 +24,7 @@ For example, our models were trained with the following commands:
 
 ```python3 train_max_cut.py -m models/Max_Cut -d data/Max_Cut_Train```
 
-```python3 train_coloring.py -m models/3COL_Pos -d data/3COL_100_Train/positive/```
+```python3 train_coloring.py -m models/3COL_Pos -d data/3COL_100_Train/positive```
 
 ```python3 train_max_is.py -m models/IS -d data/IS_100_Train```
 
@@ -41,11 +41,11 @@ To evaluate the models for Max-2SAT and Max-IS on random graphs of a given densi
 
 ```python3 evaluate_max_2sat.py -m models/2SAT -d data/2SAT_100_Eval/6.0 -a 64 -t 100```
 
-```python3 evaluate_max_is.py -m models/IS -d data/IS_100_Eval/6.0/ -a 64 -t 100```
+```python3 evaluate_max_is.py -m models/IS -d data/IS_100_Eval/6.0 -a 64 -t 100```
 
 To evaluate the networks for 3-COL on hard random instances, use the command:
 
-```python3 evaluate_coloring.py -m models/3COL_Pos_1 -d data/3COL_50_Eval/positive/ -a 64 -t 100```
+```python3 evaluate_coloring.py -m models/3COL_Pos_1 -d data/3COL_50_Eval/positive -a 64 -t 100```
 
 An additional script computes the achieved P-values for random regular graphs:
 
@@ -53,11 +53,11 @@ An additional script computes the achieved P-values for random regular graphs:
 
 To evaluate a model in the IS benchmark instances of Xu et al., use:
 
-```python3 evaluate_max_is.py -m models/IS_RB_Model -d data/Xu_IS_Benchmarks/frb30-15/ -a 8 -t 100```
+```python3 evaluate_max_is.py -m models/IS_RB_Model -d data/Xu_IS_Benchmarks/frb30-15 -a 8 -t 100```
 
 To execute our greedy Max-IS heuristic on the same graphs use the following command:
 
-```python3 greedy_is.py -d data/RB_Model/frb30-15/ ```
+```python3 greedy_is.py -d data/RB_Model/frb30-15 ```
 
 
 Beyond this, we provide a tool to automatically train a RUN-CSP instance for any fixed constraint language.
