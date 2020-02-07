@@ -31,11 +31,11 @@ def evaluate_boosted(network, eval_instances, t_max, attempts=64):
         conflict_ratios.append(conflict_ratio)
         is_size = output_dict['is_size']
         is_sizes.append(is_size)
-        print(f'Conflicts for instance {i}: {conflicts}, IS Size: {is_size}')
+        print(f'Induced edges for instance {i}: {conflicts}, IS Size: {is_size}')
 
     mean_conflict_ratio = np.mean(conflict_ratios)
     mean_is_size = np.mean(is_sizes)
-    print(f'Mean ratio of conflicting edges: {mean_conflict_ratio}, Mean Corrected Independent Set size: {mean_is_size}')
+    print(f'Mean ratio of induced edges: {mean_conflict_ratio}, Mean Corrected Independent Set size: {mean_is_size}')
 
 
 def main():

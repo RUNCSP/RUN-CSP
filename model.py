@@ -623,7 +623,8 @@ class Max_IS_Network(RUN_CSP):
 
         # correct is sizes by removing conflicts
         corrected_sizes = is_sizes - conflicts
-        corrected_sizes[:, :90] = 0 * corrected_sizes[:, :90]
+        # ignore early assignments with many conflicts
+        corrected_sizes[:, :iterations-10] = 0 * corrected_sizes[:, :iterations-10]
 
         # choose attempt with best corrected IS size
         best_attempt = np.argmax(corrected_sizes)

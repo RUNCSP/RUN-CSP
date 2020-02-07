@@ -3,6 +3,7 @@ import itertools
 import scipy.sparse as sp
 import csp_utils
 import random
+import networkx as nx
 
 
 def generate_instance(n, k, r, p):
@@ -39,4 +40,9 @@ def get_random_instance():
     p = np.random.uniform(0.3, 1.0)
     a = np.log(k) / np.log(n)
     r = - a / np.log(1 - p)
-    return get_max_is(n, k, r, p)
+
+    i = generate_instance(n, k, r, p)
+    G = nx.Graph()
+    G.add_edges_from(i.clauses['NAND'])
+
+    return G
