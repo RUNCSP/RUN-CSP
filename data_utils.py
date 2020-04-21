@@ -13,7 +13,10 @@ def load_dimacs_graph(path):
         if s[0] == 'p':
             g.add_nodes_from(range(int(s[2])))
         elif s[0] == 'e':
-            g.add_edge(int(s[1])-1, int(s[2])-1)
+            if len(s) == 4:
+                g.add_edge(int(s[1]) - 1, int(s[2]) - 1, weight=int(s[3]))
+            else:
+                g.add_edge(int(s[1])-1, int(s[2])-1)
 
     f.close()
     return g
