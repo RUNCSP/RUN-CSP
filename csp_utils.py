@@ -54,6 +54,10 @@ class Constraint_Language:
         return lang
 
 
+# define constant constraint languages for Vertex Coloring, Independent Set and Max2Sat
+coloring_language = Constraint_Language(domain_size=3,
+                                        relations={'NEQ': [[0, 1], [0, 2], [1, 0], [1, 2], [2, 0], [2, 1]]})
+
 is_language = Constraint_Language(domain_size=2,
                                   relations={'NAND': [[0, 0], [0, 1], [1, 0]]})
 
@@ -61,6 +65,9 @@ max_2sat_language = Constraint_Language(domain_size=2,
                                         relations={'OR': [[0, 1], [1, 0], [1, 1]],
                                                    'IMPL': [[0, 0], [0, 1], [1, 1]],
                                                    'NAND': [[0, 0], [0, 1], [1, 0]]})
+
+mc_weighted_language = Constraint_Language(domain_size=2,
+                                           relations={'EQ': [[1, 1], [0, 0]], 'NEQ': [[1, 0], [0, 1]]})
 
 
 class CSP_Instance:
@@ -203,7 +210,25 @@ class CSP_Instance:
         return instance
 
     @staticmethod
-    def cnf_to_instance(formula, clause_weights=None, name=None):
+    def graph_to_weighted_mc_instance(graph, name=None):
+        """
+        :param graph: A NetworkX graphs
+        :param language: A Constraint Language
+        :param relation_name: The relation name to assign to each edge
+        :return: A CSP Instance representing the graph
+        """
+        adj = nx.linalg.adjacency_matrix(graph)
+        n_variables = adj.shape[0]
+        clauses = {'EQ': [], 'NEQ': []}
+        for u, v, w in graph.edges(data='weight'):
+            rel = 'NEQ' if w > 0 else 'EQ'
+            clauses[rel].append([u, v])
+
+        instance = CSP_Instance(mc_weighted_language, n_variables, clauses, name=name)
+        return instance
+
+    @staticmethod
+    def cnf_to_instance(formula, clause_weights=None):
         """
         :param formula: A 2-cnf formula represented as a list of lists of ints.
                         I.e. ((X1 or X2) and (not X2 or X3)) is [[1, 2], [-2, 3]]
@@ -247,5 +272,5 @@ class CSP_Instance:
 
         n_variables = np.max([np.max(np.abs(clause)) for clause in formula])
 
-        instance = CSP_Instance(max_2sat_language, n_variables, clauses, clause_weights=weights, name=name)
+        instance = CSP_Instance(max_2sat_language, n_variables, clauses, clause_weights=weights)
         return instance
