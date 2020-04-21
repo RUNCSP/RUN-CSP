@@ -225,7 +225,7 @@ class RUN_CSP:
         self.state_size = state_size
 
         self.learning_rate = 0.001
-        self.decay_steps = 500
+        self.decay_steps = 2000
         self.decay_rate = 0.1
 
         # placeholder for the number of iterations t_max
